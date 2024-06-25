@@ -3,9 +3,9 @@ name: CMake Build Matrix
 # Controls when the action will run. Triggers the workflow on push
 on:
   push:
-    branches: [ "add/github_action_matrix" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "add/github_action_matrix" ]
+    branches: [ "main" ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
