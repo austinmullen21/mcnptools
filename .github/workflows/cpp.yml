@@ -84,6 +84,10 @@ jobs:
           choco install ninja cmake
           ninja --version
           cmake --version
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+            python-version: '3.12'
       - name: Install HDF5 on Windows
         if: startsWith(matrix.config.os, 'windows')
         run: |
@@ -114,7 +118,8 @@ jobs:
           ninja --version
           python --version
 
-      - name: Configure
+      - name: Configure Linux
+        if: startsWith(matrix.config.name, 'Ubuntu Latest GCC')
         shell: bash
         run: |
           pwd
@@ -126,9 +131,45 @@ jobs:
             -D mcnptools.python=ON \
             -D mcnptools.python_install=Prefix
 
-      - name: Build
+      - name: Configure MacOS
+        if: startsWith(matrix.config.os, 'macos')
+        shell: bash
+        run: |
+          pwd
+          cmake \
+            -B ${{github.workspace}}/build \
+            -D CMAKE_BUILD_TYPE=${{matrix.config.build_type}} \
+            -D CMAKE_INSTALL_PREFIX=${{github.workspace}}/build/install \
+            -D mcnptools.cpack=ON \
+            -D mcnptools.python=ON \
+            -D mcnptools.python_install=Prefix
+
+      - name: Configure Windows
+        if: startsWith(matrix.config.os, 'windows')
+        run: |
+          cmake \
+            -B ${{github.workspace}}/build \
+            -D CMAKE_BUILD_TYPE=${{matrix.config.build_type}} \
+            -D CMAKE_INSTALL_PREFIX=${{github.workspace}}/build/install \
+            -D mcnptools.cpack=ON \
+            -D mcnptools.python=ON \
+            -D mcnptools.python_install=Prefix
+
+      - name: Build Linux
+        if: startsWith(matrix.config.name, 'Ubuntu Latest GCC')
         working-directory: ${{github.workspace}}/build
         shell: bash
+        run: cmake --build . --config ${{matrix.config.build_type}} -- -j
+
+      - name: Build MacOS
+        if: startsWith(matrix.config.os, 'macos')
+        working-directory: ${{github.workspace}}/build
+        shell: bash
+        run: cmake --build . --config ${{matrix.config.build_type}} -- -j
+
+      - name: Build Windows
+        if: startsWith(matrix.config.os, 'windows')
+        working-directory: ${{github.workspace}}/build
         run: cmake --build . --config ${{matrix.config.build_type}} -- -j
 
       - name: Build Wheel
