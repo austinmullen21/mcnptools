@@ -90,7 +90,7 @@ jobs:
           Invoke-WebRequest -Uri https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.1/src/CMake-hdf5-1.12.1.zip -OutFile "CMake-hdf5-1.12.1.zip"
           Expand-Archive -Path "CMake-hdf5-1.12.1.zip" -DestinationPath .
           cd CMake-hdf5-1.12.1
-          patch_cmake.bat
+          PatchHDF5.bat
           ctest -S HDF5config.cmake,BUILD_GENERATOR=VS201964 -C Release -V -O hdf5.log
           Expand-Archive -Path "HDF5-1.12.1-win64.zip" -DestinationPath .
       - name: Install dependencies on Ubuntu
