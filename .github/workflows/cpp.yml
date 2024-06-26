@@ -84,7 +84,8 @@ jobs:
           choco install ninja cmake
           ninja --version
           cmake --version
-      - name: Set up Python
+      - name: Set up Python on Windows
+        if: startsWith(matrix.config.os, 'windows')
         uses: actions/setup-python@v4
         with:
             python-version: '3.12'
@@ -147,12 +148,12 @@ jobs:
       - name: Configure Windows
         if: startsWith(matrix.config.os, 'windows')
         run: |
-          cmake \
-            -B ${{github.workspace}}/build \
-            -D CMAKE_BUILD_TYPE=${{matrix.config.build_type}} \
-            -D CMAKE_INSTALL_PREFIX=${{github.workspace}}/build/install \
-            -D mcnptools.cpack=ON \
-            -D mcnptools.python=ON \
+          cmake -G "Ninja" ^
+            -B ${{github.workspace}}/build ^
+            -D CMAKE_BUILD_TYPE=${{matrix.config.build_type}} ^
+            -D CMAKE_INSTALL_PREFIX=${{github.workspace}}/build/install ^
+            -D mcnptools.cpack=ON ^
+            -D mcnptools.python=ON ^
             -D mcnptools.python_install=Prefix
 
       - name: Build Linux
