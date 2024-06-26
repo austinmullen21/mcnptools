@@ -148,13 +148,7 @@ jobs:
       - name: Configure Windows
         if: startsWith(matrix.config.os, 'windows')
         run: |
-          cmake -G "Ninja" ^
-            -B ${{github.workspace}}/build ^
-            -D CMAKE_BUILD_TYPE=${{matrix.config.build_type}} ^
-            -D CMAKE_INSTALL_PREFIX=${{github.workspace}}/build/install ^
-            -D mcnptools.cpack=ON ^
-            -D mcnptools.python=ON ^
-            -D mcnptools.python_install=Prefix
+          cmake -G "Ninja" -B ${{github.workspace}}/build -D CMAKE_BUILD_TYPE=${{matrix.config.build_type}} -D CMAKE_INSTALL_PREFIX=${{github.workspace}}/build/install -D mcnptools.cpack=ON -D mcnptools.python=ON -D mcnptools.python_install=Prefix
 
       - name: Build Linux
         if: startsWith(matrix.config.name, 'Ubuntu Latest GCC')
