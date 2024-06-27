@@ -153,10 +153,7 @@ jobs:
       - name: Configure Windows
         if: startsWith(matrix.config.os, 'windows')
         run: |
-          dir ${{github.workspace}}\CMake-hdf5-1.12.1\HDF5-1.12.1-win64
-          dir ${{github.workspace}}\CMake-hdf5-1.12.1\HDF5-1.12.1-win64\bin
-          dir ${{github.workspace}}\CMake-hdf5-1.12.1\HDF5-1.12.1-win64\share
-          cmake -G "Ninja" -B ${{github.workspace}}/build -D CMAKE_BUILD_TYPE=${{matrix.config.build_type}} -D CMAKE_INSTALL_PREFIX=${{github.workspace}}/build/install -DHDF5_ROOT=${{github.workspace}}/CMake-hdf5-1.12.1/HDF5-1.12.1-win64 -D mcnptools.cpack=ON -D mcnptools.python=ON -D mcnptools.python_install=Prefix
+          cmake -B ${{github.workspace}}/build -D CMAKE_BUILD_TYPE=${{matrix.config.build_type}} -D CMAKE_INSTALL_PREFIX=${{github.workspace}}/build/install -DHDF5_ROOT=${{github.workspace}}/CMake-hdf5-1.12.1/HDF5-1.12.1-win64 -D mcnptools.cpack=ON -D mcnptools.python=ON -D mcnptools.python_install=Prefix
 
       - name: Build Linux
         if: startsWith(matrix.config.name, 'Ubuntu Latest GCC')
@@ -195,7 +192,7 @@ jobs:
         run: |
           ctest -C ${{matrix.config.BUILD_TYPE}} --output-on-failure
 
-      - name: Test C++ Widnows
+      - name: Test C++ Windows
         if: startsWith(matrix.config.os, 'windows')
         working-directory: ${{github.workspace}}/build
         # Execute tests defined by the CMake configuration.
