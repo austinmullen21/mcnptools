@@ -168,7 +168,7 @@ jobs:
       - name: Build Windows
         if: startsWith(matrix.config.os, 'windows')
         working-directory: ${{github.workspace}}/build
-        run: cmake --build . --config ${{matrix.config.build_type}} -- -j
+        run: cmake --build . --config ${{matrix.config.build_type}} -- -j 1
 
       - name: Build Wheel
         working-directory: ${{github.workspace}}/build/python
