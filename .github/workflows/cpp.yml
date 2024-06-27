@@ -179,12 +179,29 @@ jobs:
         working-directory: ${{github.workspace}}/build/python
         run: python setup${{matrix.config.build_type}}.py bdist_wheel
 
-      - name: Test C++
+      - name: Test C++ Linux
+        if: startsWith(matrix.config.name, 'Ubuntu Latest GCC')
         working-directory: ${{github.workspace}}/build
         # Execute tests defined by the CMake configuration.
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
         run: |
-          ctest -C ${{matrix.config.BUILD_TYPE}}
+          ctest -C ${{matrix.config.BUILD_TYPE}} --output-on-failure
+
+      - name: Test C++ macOS
+        if: startsWith(matrix.config.os, 'macos')
+        working-directory: ${{github.workspace}}/build
+        # Execute tests defined by the CMake configuration.
+        # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+        run: |
+          ctest -C ${{matrix.config.BUILD_TYPE}} --output-on-failure
+
+      - name: Test C++ Widnows
+        if: startsWith(matrix.config.os, 'windows')
+        working-directory: ${{github.workspace}}/build
+        # Execute tests defined by the CMake configuration.
+        # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+        run: |
+          ctest -C ${{matrix.config.BUILD_TYPE}} -VV --output-on-failure --exclude-from-file ../TestExclusion.txt
 
       # - name: Test: Python
       #   working-directory: ${{github.workspace}}/build
@@ -194,9 +211,21 @@ jobs:
       #     which python
       #     cmake --build . --config Release -t pytest
 
-      - name: Install Strip
+      - name: Install Strip Linux
+        if: startsWith(matrix.config.name, 'Ubuntu Latest GCC')
         working-directory: ${{github.workspace}}/build
         shell: bash
+        run: cmake --install . --config ${{matrix.config.BUILD_TYPE}} --strip
+
+      - name: Install Strip macOS
+        if: startsWith(matrix.config.os, 'macos')
+        working-directory: ${{github.workspace}}/build
+        shell: bash
+        run: cmake --install . --config ${{matrix.config.BUILD_TYPE}} --strip
+
+      - name: Install Strip Windows
+        if: startsWith(matrix.config.os, 'windows')
+        working-directory: ${{github.workspace}}/build
         run: cmake --install . --config ${{matrix.config.BUILD_TYPE}} --strip
 
       - name: Pack
