@@ -236,7 +236,7 @@ jobs:
         uses: actions/upload-artifact@v4
 
         with:
-            name: mcnptools
+            name: ${{ matrix.config.artifact }}
             path: |
                 ${{github.workspace}}/build/*.zip
                 ${{github.workspace}}/build/python/dist/*.whl
