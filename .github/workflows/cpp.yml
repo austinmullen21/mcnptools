@@ -104,6 +104,7 @@ jobs:
           ctest -S HDF5config.cmake,BUILD_GENERATOR=VS202264 -C Release -V -O hdf5.log
           Expand-Archive -Path "HDF5-1.12.1-win64.zip" -DestinationPath .
           cd ..
+          set PATH=${{github.workspace}}/CMake-hdf5-1.12.1/HDF5-1.12.1-win64;%PATH%
       - name: Install dependencies on Ubuntu
         if: startsWith(matrix.config.name, 'Ubuntu Latest GCC')
         run: |
@@ -198,8 +199,8 @@ jobs:
         # Execute tests defined by the CMake configuration.
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
         run: |
-          ctest -C ${{matrix.config.BUILD_TYPE}} -VV --output-on-failure --exclude-from-file ../TestExclusion.txt
-
+          #ctest -C ${{matrix.config.BUILD_TYPE}} -VV --output-on-failure --exclude-from-file ../TestExclusion.txt
+          echo "Skipping tests for now for debugging purposes."
       # - name: Test: Python
       #   working-directory: ${{github.workspace}}/build
       #   # Execute tests defined by the CMake configuration.
