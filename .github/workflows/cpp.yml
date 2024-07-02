@@ -242,6 +242,16 @@ jobs:
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
         run: cpack -G ZIP
 
+      - name: Print directories on install failure
+        if: failure() && matrix.os == 'macos-latest'
+        run: |
+            echo "Install failed. Printing directory contents for debugging."
+            ls -la ${{github.workspace}}/build/install/
+            ls -la ${{github.workspace}}/build/install/Frameworks/
+            ls -la ${{github.workspace}}/build/install/bin/
+            ls -la /opt/homebrew/opt/
+            ls -la /opt/homebrew/opt/libtiff/lib/
+
       - name: Capture artifacts
         uses: actions/upload-artifact@v4
 
