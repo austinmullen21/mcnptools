@@ -243,7 +243,7 @@ jobs:
         run: cpack -G ZIP
 
       - name: Print directories on install failure
-        if: failure() && matrix.os == 'macos-latest'
+        if: failure()
         run: |
             echo "Install failed. Printing directory contents for debugging."
             ls -la ${{github.workspace}}/build/install/
