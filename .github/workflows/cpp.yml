@@ -135,7 +135,6 @@ jobs:
           gcc --version
           ninja --version
           python --version
-          ls /Users/runner/work/mcnptools/mcnptools/build/install/Frameworks/
 
       - name: Configure Linux
         if: startsWith(matrix.config.name, 'Ubuntu Latest GCC')
@@ -225,6 +224,13 @@ jobs:
         working-directory: ${{github.workspace}}/build
         shell: bash
         run: cmake --install . --config ${{matrix.config.BUILD_TYPE}} --strip
+
+      - name: Copy macOS Dependency
+        if: startsWith(matrix.config.os, 'macos')
+        run: |
+            mkdir -p ${{github.workspace}}/build/install/Frameworks/
+            cp /opt/homebrew/opt/libtiff/lib/libtiff.6.dylib ${{github.workspace}}/build/install/Frameworks/
+            ls -la ${{github.workspace}}/build/install/Frameworks/
 
       - name: Install Strip macOS
         if: startsWith(matrix.config.os, 'macos')
