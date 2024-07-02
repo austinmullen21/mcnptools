@@ -105,6 +105,14 @@ jobs:
           Expand-Archive -Path "HDF5-1.12.1-win64.zip" -DestinationPath .
           cd ..
           echo ${{github.workspace}}/CMake-hdf5-1.12.1/HDF5-1.12.1-win64 >> $Env:GITHUB_PATH
+          echo ${{github.workspace}}/CMake-hdf5-1.12.1/HDF5-1.12.1-win64/bin >> $Env:GITHUB_PATH
+          echo ${{github.workspace}}/CMake-hdf5-1.12.1/HDF5-1.12.1-win64/share >> $Env:GITHUB_PATH
+          echo ${{github.workspace}}/CMake-hdf5-1.12.1/HDF5-1.12.1-win64/lib >> $Env:GITHUB_PATH
+          echo ${{github.workspace}}/CMake-hdf5-1.12.1/HDF5-1.12.1-win64 >> $GITHUB_PATH
+          echo ${{github.workspace}}/CMake-hdf5-1.12.1/HDF5-1.12.1-win64/bin >> $GITHUB_PATH
+          echo ${{github.workspace}}/CMake-hdf5-1.12.1/HDF5-1.12.1-win64/share >> $GITHUB_PATH
+          echo ${{github.workspace}}/CMake-hdf5-1.12.1/HDF5-1.12.1-win64/lib >> $GITHUB_PATH
+          set
       - name: Install dependencies on Ubuntu
         if: startsWith(matrix.config.name, 'Ubuntu Latest GCC')
         run: |
