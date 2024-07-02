@@ -230,7 +230,7 @@ jobs:
         working-directory: ${{github.workspace}}/build
         shell: bash
         run: |
-            chmod 644 /opt/homebrew/opt/libtiff/lib/*
+            chmod 777 /opt/homebrew/opt/libtiff/lib/*
             cmake --install . --config ${{matrix.config.BUILD_TYPE}} --strip --verbose
 
       - name: Install Strip Windows
