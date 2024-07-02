@@ -225,18 +225,11 @@ jobs:
         shell: bash
         run: cmake --install . --config ${{matrix.config.BUILD_TYPE}} --strip
 
-      - name: Copy macOS Dependency
-        if: startsWith(matrix.config.os, 'macos')
-        run: |
-            mkdir -p ${{github.workspace}}/build/install/Frameworks/
-            cp /opt/homebrew/opt/libtiff/lib/libtiff.6.dylib ${{github.workspace}}/build/install/Frameworks/
-            ls -la ${{github.workspace}}/build/install/Frameworks/
-
       - name: Install Strip macOS
         if: startsWith(matrix.config.os, 'macos')
         working-directory: ${{github.workspace}}/build
         shell: bash
-        run: cmake --install . --config ${{matrix.config.BUILD_TYPE}} --strip
+        run: cmake --install . --config ${{matrix.config.BUILD_TYPE}} --strip --verbose
 
       - name: Install Strip Windows
         if: startsWith(matrix.config.os, 'windows')
