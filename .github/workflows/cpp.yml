@@ -229,7 +229,9 @@ jobs:
         if: startsWith(matrix.config.os, 'macos')
         working-directory: ${{github.workspace}}/build
         shell: bash
-        run: cmake --install . --config ${{matrix.config.BUILD_TYPE}} --strip --verbose
+        run: |
+            chmod 644 /opt/homebrew/opt/libtiff/lib/*
+            cmake --install . --config ${{matrix.config.BUILD_TYPE}} --strip --verbose
 
       - name: Install Strip Windows
         if: startsWith(matrix.config.os, 'windows')
@@ -251,6 +253,10 @@ jobs:
             ls -la ${{github.workspace}}/build/install/bin/
             ls -la /opt/homebrew/opt/
             ls -la /opt/homebrew/opt/libtiff/lib/
+            echo "This fails."
+            otool -L ${{github.workspace}}/build/install/Frameworks/libtiff.6.dylib
+            echo "This works"
+            otool -L ${{github.workspace}}/build/install/Frameworks/libjpeg.8.3.2.dylib
 
       - name: Capture artifacts
         uses: actions/upload-artifact@v4
