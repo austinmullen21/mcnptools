@@ -129,11 +129,13 @@ jobs:
         run: |
           brew update
           brew install hdf5 libtiff cmake ninja
+          brew reinstall libtiff
           python -m pip install --upgrade pip setuptools wheel
           cmake --version
           gcc --version
           ninja --version
           python --version
+          ls /Users/runner/work/mcnptools/mcnptools/build/install/Frameworks/
 
       - name: Configure Linux
         if: startsWith(matrix.config.name, 'Ubuntu Latest GCC')
